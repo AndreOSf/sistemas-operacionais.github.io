@@ -51,44 +51,19 @@ os  acessos  ao  hardware
 10) É uma função da biblioteca padrão da linguagem C, ela abre o arquivo cujo nome é indicado por filename.
 
 11) 
-           Arquitetura	 |	Benefícios		         |	Deficiências				 
-________________________ |_________________________|_______________________________________________
-|			                   |  Desempenho.		       | O mal funcionamento de uma			 
-|			                   |				                 |aplicação do núcleo pode se alastrar e levar	 
-| >Sistemas Monolíticos< |				                 |o sistema ao travamento ou a instabilidade.	 
-|			                   |				                 | Manutenção mais complexa;			 
-|			                   |  				               | Evolução mais complexa.			 
-|________________________|_________________________|_______________________________________________
-|			                   | Separação de código;   | Aumento no número de classes existentes 	 
-|			                   | Permite a mudança de	 |no sistema.					 
-|			                   |implementação de uma		 |						 
-| >Sistemas em Camadas<	 |camada sem afetar a outra|						 
-|			                   | Possibilita que uma		 |						 
-|			                   |camada trabalhe com		   |						 
-|			                   |diferentes versões de    |		 				 
-|			                   |outra camada.			       |						 
-|________________________|_________________________|_______________________________________________								
-|			                   | Robustez e flexibilidade| O custo associado às trocas de mensagens 	 
-|			                   |				                  |entre componentes pode ser bastante elevado,	 
-|			                   |				                  |o que prejudica seu desempenho e diminui 	 
-| >Sistemas Micronúcleo< |				                  |a aceitação desta abordagem.			 	
-|			                   |				                  |						 
-|			                   |				                  |	 					 
-|			                   |				                  |						 
-|________________________|__________________________|_______________________________________________
-|			                   | Aperfeiçoamento e testes	   | Custo adicional de execução dosprocessos na  
-|			                   |de novos sistemas operacionais;|máquina virtual em comparação com a máquina 	 
-|			                   | Executar diferentes sistemas |real. Esse problema não existe em ambientes 	 
-| >Máquinas Virtuais< 	 |operacionais sobre o mesmo 	   |cujo hardware suporta o conceito de 		 		
-|			                   |hardware, simultaneamente;	   |virtualização, como é o caso dos mainframes.	 
-|			                   | Simulação de configurações 	 |	 					 
-|			                   |e situações diferentes do mundo|						 
-|			                   |real, alterações e falhas no 	 |						 
-|			                   |hardware para testes ou 	     |						 
-|			                   |reconfiguração de um sistema 	 |						 
-|			                   |operacional;			             | 						 
-|			                   | Diminuir custos com hardware.|        					 
-|________________________|_______________________________|_______________________________________________
+   Em um sistema monolítico, todos os componentes do núcleo operam em modo núcleo e se interrelacionam conforme suas necessidades, sem restrições de acesso entre si, pois o código no nível núcleo tem acesso pleno a todos os recursos e áreas de memória. A grande vantagem dessa arquitetura é seu desempenho: qualquer componente do núcleo pode acessar os demais componentes, toda a memória ou mesmo dispositivos periféricos diretamente, pois não há barreiras impedindo esse acesso. A interação direta entre componentes também leva a sistemas mais compactos. Todavia, a arquitetura monolítica pode pagar um preço elevado por seu desempenho: a robustez e a facilidade de desenvolvimento. Caso um componente do núcleo perca o controle devido a algum erro, esse problema pode se alastrar rapidamente por todo o núcleo, levando o sistema ao colapso (travamento, reinicialização ou funcionamento
+Uma forma mais elegante de estruturar um sistema operacional faz uso da noção de  camadas:   a  camada  mais  baixa  realiza  a  interface  com  o  hardware,  enquanto as  camadas  intermediárias  proveem  níveis  de  abstração  e  gerência  cada  vez  mais sofisticados. Por fim, a camada superior define a interface do núcleo para as aplicações
+(as chamadas de sistema). Essa abordagem de estruturação de software fez muito sucesso no domínio das redes de computadores, através do modelo de referência OSI
+(Open Systems Interconnection) [Day, 1983], e também seria de se esperar sua adoção no domínio dos sistemas operacionais.
+  
+No entanto, alguns inconvenientes limitam sua aceitação nesse contexto:
+
+• O empilhamento de várias camadas de software faz com que cada pedido de uma
+aplicação demore mais tempo para chegar até o dispositivo periférico ou recurso a
+ser acessado, prejudicando o desempenho do sistema.
+
+• Não é óbvio como dividir as funcionalidades de um núcleo de sistema operacional em camadas horizontais de abstração crescente, pois essas funcionalidades são
+interdependentes, embora tratem muitas vezes de recursos distintos. Em decorrência desses inconvenientes, a estruturação em camadas é apenas parcialmente adotada hoje em dia. Muitos sistemas implementam uma camada inferior de abstração do hardware para interagir com os dispositivos (a camada HAL – Hardware Abstraction Layer, implementada no Windows NT e seus sucessores), e também organizam em camadas alguns subsistemas como a gerência de arquivos e o suporte de rede (seguindo o modelo OSI). Como exemplos de sistemas fortemente estruturados em camadas podem ser citados o IBM OS/2 e o MULTICS [Corbató and Vyssotsky, 1965]
 									 				
 12) 
 T
